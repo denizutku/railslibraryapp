@@ -8,6 +8,7 @@
       <th>Last name</th>
       <th>First name</th>
       <th>Book Number</th>
+      <th>Actions</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,7 +19,7 @@
         <td><b><%= author.last_name %></b></td>
         <td><h6><%= author.first_name %></h6></td>
         <td><h6><%= @books.where(author_id:author.id).size %></h6></td>
-        <td><%= link_to 'Show', author, class: "btn btn-secondary btn-sm" %></td>
+        <td><%= link_to 'Details', author, class: "btn btn-secondary btn-sm" %></td>
         <% if current_user.is_admin? %>
           <td><%= link_to 'Edit', edit_author_path(author), class: "btn btn-secondary btn-sm" %></td>
           <td><%= link_to 'Destroy', author, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %></td>
