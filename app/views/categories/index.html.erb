@@ -7,8 +7,10 @@
     <tr>
       <th>Name</th>
       <th>Description</th>
-      <th>Actions</th>
-      <th colspan="3"></th>
+      <% if user_signed_in? %>
+        <th>Actions</th>
+        <th colspan="3"></th>
+      <% end %>
     </tr>
   </thead>
 
@@ -17,10 +19,12 @@
       <tr>
         <td><b><%= category.name %></b></td>
         <td><h6><%= category.description %></h6></td>
-        <td><%= link_to 'Show', category, class: "btn btn-secondary btn-sm"  %></td>
-        <% if current_user.is_admin? %>
-          <td><%= link_to 'Edit', edit_category_path(category), class: "btn btn-seconday btn-sm" %></td>
-          <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %></td>
+        <% if user_signed_in? %>
+          <td><%= link_to 'Show', category, class: "btn btn-secondary btn-sm"  %></td>
+          <% if current_user.is_admin? %>
+            <td><%= link_to 'Edit', edit_category_path(category), class: "btn btn-seconday btn-sm" %></td>
+            <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %></td>
+          <% end %>
         <% end %>
       </tr>
     <% end %>
