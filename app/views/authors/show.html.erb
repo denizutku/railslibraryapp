@@ -16,10 +16,13 @@
 </p>
 
 Books:
+<ul>
 <% @books.each do |book| %>
-  <%= book.name %>
+  <li><%= link_to book.name, book %></li>
 <% end %>
+</ul>
 
-
-<%= link_to 'Edit', edit_author_path(@author) %> |
+<% if current_user.is_admin? %>
+  <%= link_to 'Edit', edit_author_path(@author) %>
+<% end %>
 <%= link_to 'Back', authors_path %>
