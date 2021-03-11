@@ -2,34 +2,47 @@
 
 <h1>Books</h1>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Name</th>
-      <th>Description</th>
       <th>Isbn</th>
-      <th>Is taken</th>
+      <th>Availablity</th>
       <th>Author</th>
       <th>Category</th>
-      <th colspan="3"></th>
+      <% if user_signed_in? %>
+        <th colspan="4">Actions</th>
+      <% end %>
     </tr>
   </thead>
 
   <tbody>
     <% @books.each do |book| %>
       <tr>
-        <td><%= book.name %></td>
-        <td><%= book.description %></td>
-        <td><%= book.isbn %></td>
-        <td><%= book.is_taken %></td>
-        <td><%= book.author.first_name %></td>
-        <td><%= book.category.name %></td>
-        <td><%= link_to 'Show', book %></td>
-        <% if current_user %>
-          <td><%= link_to 'Lend', lend_book_path(book) %></td>
-          <td><%= link_to 'Return', return_book_path(book) %></td>
-          <td><%= link_to 'Edit', edit_book_path(book) %></td>
-          <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><b><%= book.name %></b></td>
+        <td><h6><%= book.isbn %></h6></td>
+        <% if book.is_taken %>
+          <td><h6>Not available</h6></td>
+        <% else %>
+          <td><h6>Available</h6></td>
+        <% end %>
+        <td><h6><%= book.author.first_name %></h6></td>
+        <td><h6><%= book.category.name %></h6></td>
+        <% if user_signed_in? %>
+          <td><%= link_to 'Details', book, class: "btn btn-secondary btn-sm"%></td>
+          <% if book.is_taken %>
+            <% if @lendings.where(book_id:book.id).first %>
+              <td><%= link_to 'Return', return_book_path(book), class: "btn btn-warning btn-sm" %></td>
+            <% else %>
+              <td></td>
+            <% end %>
+          <% else %>
+            <td><%= link_to 'Lend', lend_book_path(book), class: "btn btn-success btn-sm" %></td>
+          <% end %>
+          <% if current_user.is_admin? %>
+            <td><%= link_to 'Edit', edit_book_path(book), class: "btn btn-secondary btn-sm"%></td>
+            <td><%= link_to 'Delete', book, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %></td>
+          <% end %>
         <% end %>
       </tr>
     <% end %>
@@ -37,5 +50,3 @@
 </table>
 
 <br>
-
-<%= link_to 'New Book', new_book_path %>

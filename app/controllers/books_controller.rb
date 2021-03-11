@@ -4,7 +4,9 @@ class BooksController < ApplicationController
   # GET /books or /books.json
   def index
     @books = Book.all
-    @lendings = Lending.all
+    if user_signed_in?
+      @lendings = Lending.where(user_id:current_user.id)
+    end
   end
 
   # GET /books/1 or /books/1.json
