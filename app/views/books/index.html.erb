@@ -22,10 +22,12 @@
         <td><%= book.description %></td>
         <td><%= book.isbn %></td>
         <td><%= book.is_taken %></td>
-        <td><%= book.author_id %></td>
-        <td><%= book.category_id %></td>
+        <td><%= book.author.first_name %></td>
+        <td><%= book.category.name %></td>
         <td><%= link_to 'Show', book %></td>
         <% if current_user %>
+          <td><%= link_to 'Lend', lend_book_path(book) %></td>
+          <td><%= link_to 'Return', return_book_path(book) %></td>
           <td><%= link_to 'Edit', edit_book_path(book) %></td>
           <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>

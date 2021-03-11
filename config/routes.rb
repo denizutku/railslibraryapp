@@ -6,6 +6,9 @@ Rails.application.routes.draw do
 
   root to: "books#index"
 
+  get 'books/:id/lend', to: "books#lend", as: :lend_book
+  get 'books/:id/return', to: "books#return", as: :return_book
+
   devise_for :users, skip: [:sessions, :registrations, :passwords]
 
   devise_scope :user do

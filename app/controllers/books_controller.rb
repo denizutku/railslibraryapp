@@ -57,6 +57,22 @@ class BooksController < ApplicationController
     end
   end
 
+  def lend
+    @book = Book.find(params[:id])
+    @book.update(:is_taken => true)
+    redirect_to root_path, alert: "Took!"
+
+    Lending.create(user_id:current_user.id, book_id:@book.id, taken_at:Time.now, returned_at:nil)
+  end
+
+  def return
+    @book = Book.find(params[:id])
+    @book.update(:is_taken => false)
+    redirect_to root_path, alert: "You've returned a book!"
+  
+    Lending.where(user_id:current_user.id, book_id:@book.id).update(:returned_at => Time.now)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book
