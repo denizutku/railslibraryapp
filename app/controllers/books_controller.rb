@@ -85,4 +85,17 @@ class BooksController < ApplicationController
     def book_params
       params.require(:book).permit(:name, :description, :isbn, :is_taken, :author_id, :category_id)
     end
+
+    def request_api(url)
+      response = Excon.get(
+        url
+      )
+      return nil if response.status != 200
+      print(JSON.parse(response.body))
+    end
+    def find_country(name)
+      request_api(
+        "http://openlibrary.org/search.json?title=" + name
+      )
+    end
 end
